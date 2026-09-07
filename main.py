@@ -4,6 +4,7 @@ from datetime import datetime
 from tabulate import tabulate
 
 file_path = 'data.json'
+
 def load_data(file_path = file_path):
     try:
         with open(file_path, 'r') as file:
