@@ -1,6 +1,8 @@
 import json
 import sys
 from datetime import datetime
+from tabulate import tabulate
+
 
 def load_data():
     try:
@@ -24,7 +26,7 @@ def add_task(task_list, description):
     }
     task_list.append(task)
     save_data(task_list)
-    print(f"Task '{task}' added.")
+    print(tabulate([task], headers="keys", tablefmt="grid"))
 
 def update_task(task_list, task_id, new_description):
     for task in task_list:
@@ -32,7 +34,7 @@ def update_task(task_list, task_id, new_description):
             task['description'] = new_description
             task['updatedAt'] = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
             save_data(task_list)
-            print(f"Task ID {task_id} updated.")
+            print(tabulate([task], headers="keys", tablefmt="grid"))
             return
     print(f"Task ID {task_id} not found.")
 
@@ -51,7 +53,7 @@ def mark_task_done(task_list, task_id):
             task['status'] = "done"
             task['updatedAt'] = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
             save_data(task_list)
-            print(f"Task ID {task_id} marked as done.")
+            print(tabulate([task], headers="keys", tablefmt="grid"))
             return
     print(f"Task ID {task_id} not found.")
 
@@ -61,7 +63,7 @@ def mark_task_in_progress(task_list, task_id):
             task['status'] = "in-progress"
             task['updatedAt'] = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
             save_data(task_list)
-            print(f"Task ID {task_id} marked as in progress.")
+            print(tabulate([task], headers="keys", tablefmt="grid"))
             return
     print(f"Task ID {task_id} not found.") 
 
@@ -70,31 +72,27 @@ def list_done(task_list):
     if not done_tasks:
         print("No done tasks found.")
         return
-    for task in done_tasks:
-        print(f"ID: {task['id']}, Description: {task['description']}, Status: {task['status']}, Created At: {task['createdAt']}, Updated At: {task['updatedAt']}")
+    print(tabulate(done_tasks, headers="keys", tablefmt="grid"))
 
 def list_in_progress(task_list):
     in_progress_tasks = [task for task in task_list if task['status'] == "in-progress"]
     if not in_progress_tasks:
         print("No in-progress tasks found.")
         return
-    for task in in_progress_tasks:
-        print(f"ID: {task['id']}, Description: {task['description']}, Status: {task['status']}, Created At: {task['createdAt']}, Updated At: {task['updatedAt']}")
+    print(tabulate(in_progress_tasks, headers="keys", tablefmt="grid"))
 
 def list_to_do(task_list):
     to_do_tasks = [task for task in task_list if task['status'] == "to-do"]
     if not to_do_tasks:
         print("No to-do tasks found.")
         return
-    for task in to_do_tasks:
-        print(f"ID: {task['id']}, Description: {task['description']}, Status: {task['status']}, Created At: {task['createdAt']}, Updated At: {task['updatedAt']}")
+    print(tabulate(to_do_tasks, headers="keys", tablefmt="grid"))
 
 def list_tasks(task_list):
     if not task_list:
         print("No tasks found.")
         return
-    for task in task_list:
-        print(f"ID: {task['id']}, Description: {task['description']}, Status: {task['status']}, Created At: {task['createdAt']}, Updated At: {task['updatedAt']}")
+    print(tabulate(task_list, headers="keys", tablefmt="grid"))
 
 def menu(task_list):
     if len(sys.argv) >= 3 and sys.argv[1] == "add":
