@@ -3,16 +3,16 @@ import sys
 from datetime import datetime
 from tabulate import tabulate
 
-
-def load_data():
+file_path = 'data.json'
+def load_data(file_path = file_path):
     try:
-        with open('data.json', 'r') as file:
+        with open(file_path, 'r') as file:
             return json.load(file)
     except FileNotFoundError:
         return []
 
 def save_data(task_list):
-    with open('data.json', 'w') as file:
+    with open(file_path, 'w') as file:
         json.dump(task_list, file, indent=4)
 
 def add_task(task_list, description):
